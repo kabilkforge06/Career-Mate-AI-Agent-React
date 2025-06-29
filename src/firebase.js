@@ -6,13 +6,13 @@ import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA84WWMJigX9dcNJ4D6VIIakAte6IhJsz0",
-  authDomain: "careermate-ai-31292.firebaseapp.com",
-  databaseURL: "https://careermate-ai-31292-default-rtdb.firebaseio.com/",
-  projectId: "careermate-ai-31292",
-  storageBucket: "careermate-ai-31292.firebasestorage.app",
-  messagingSenderId: "778112252209",
-  appId: "1:778112252209:web:661e19c7a44a4717dfd810"
+  apiKey: "YOUR_FIREBASE_API_KEY",
+  authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+  databaseURL: "YOUR_FIREBASE_DATABASE_URL",      #UseYourAuthConfigValues
+  projectId: "YOUR_FIREBASE_PROJECT_ID",
+  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+  appId: "YOUR_FIREBASE_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
