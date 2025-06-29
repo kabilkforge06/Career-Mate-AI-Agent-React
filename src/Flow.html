@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerMate AI Platform Workflow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        
+        .flowchart {
+            width: 100%;
+            min-width: 1400px;
+            height: 1400px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        /* Updated Grid System */
+        .col-1 { left: 140px; }
+        .col-2 { left: 280px; }
+        .col-3 { left: 420px; }
+        .col-4 { left: 560px; }
+        .col-5 { left: 700px; }
+        .col-6 { left: 840px; }
+        .col-7 { left: 980px; }
+        .col-8 { left: 1120px; }
+        .col-9 { left: 1260px; }
+        .col-10 { left: 1400px; }
+        
+        /* Updated Row System */
+        .row-1 { top: 60px; }
+        .row-2 { top: 140px; }
+        .row-3 { top: 220px; }
+        .row-4 { top: 300px; }
+        .row-5 { top: 380px; }
+        .row-6 { top: 460px; }
+        .row-7 { top: 540px; }
+        .row-8 { top: 620px; }
+        .row-9 { top: 700px; }
+        .row-10 { top: 780px; }
+        .row-11 { top: 860px; }
+        .row-12 { top: 940px; }
+        .row-13 { top: 1020px; }
+        .row-14 { top: 1100px; }
+        .row-15 { top: 1180px; }
+        
+        /* Updated Legend Styles */
+        .legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        /* Updated Node Styles */
+        .node {
+            position: absolute;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 120px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1.3;
+            transform: translateX(-50%);
+        }
+        
+        .node:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Updated User Type Colors */
+        .student { background: linear-gradient(135deg, #3498db, #2980b9); border: 2px solid #2980b9; }
+        .staff { background: linear-gradient(135deg, #27ae60, #229954); border: 2px solid #229954; }
+        .alumni { background: linear-gradient(135deg, #e67e22, #d35400); border: 2px solid #d35400; }
+        .system { background: linear-gradient(135deg, #9b59b6, #8e44ad); border: 2px solid #8e44ad; }
+        .auth { background: linear-gradient(135deg, #e74c3c, #c0392b); border: 2px solid #c0392b; }
+        .ai { background: linear-gradient(135deg, #f39c12, #e67e22); border: 2px solid #e67e22; }
+        
+        /* Updated Diamond Styles */
+        .diamond {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            transform: rotate(45deg) translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            line-height: 1.2;
+            color: white;
+            font-weight: 600;
+            border: 2px solid #2c3e50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-left: -40px;
+        }
+        
+        .diamond-text {
+            transform: rotate(-45deg);
+            text-align: center;
+            width: 100%;
+        }
+        
+        /* Updated Container Box Styles */
+        .container-box {
+            position: absolute;
+            border: 3px solid #bdc3c7;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 30px;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+        
+        .container-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: white;
+            padding: 4px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-radius: 6px;
+            border: 2px solid #bdc3c7;
+            z-index: 2;
+        }
+        
+        /* Updated Description Styles */
+        .description {
+            position: absolute;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #495057;
+            border: 1px solid #dee2e6;
+            max-width: 140px;
+            line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        /* Updated Arrow Styles */
+        .arrow-line {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .arrow-curved {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .arrow-dashed {
+            stroke: #7f8c8d;
+            stroke-width: 1.5;
+            stroke-dasharray: 5,5;
+            fill: none;
+            marker-end: url(#arrowhead-light);
+        }
+        
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes clickPulse {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1600px) {
+            .container {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+      <div class="container">
+        <div class="title">CareerMate AI Platform</div>
+        <div class="subtitle">Complete Workflow & User Journey Visualization</div>
+        
+        <div class="flowchart">
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color student"></div>
+                    <span>Students</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color staff"></div>
+                    <span>Staff</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color alumni"></div>
+                    <span>Alumni</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color system"></div>
+                    <span>System/Core</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color ai"></div>
+                    <span>AI/LLM</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color auth"></div>
+                    <span>Authentication</span>
+                </div>
+            </div>
+            
+            <!-- ROW 1: Entry Point -->
+            <div class="node system col-5 row-1">Platform Entry Point</div>
+            
+            <!-- ROW 2: Authentication -->
+            <div class="node auth col-5 row-2">Firebase Authentication</div>
+            <div class="description col-6 row-2" style="top: 135px;">Secure login/signup with role-based access control</div>
+            
+            <!-- ROW 3: User Type Decision -->
+            <div class="diamond col-5 row-3" style="left: 690px;">
+                <div class="diamond-text">User<br/>Type<br/>Check</div>
+            </div>
+            
+            <!-- ROW 4: User Dashboards (Aligned) -->
+            <div class="node student col-2 row-4">STUDENT<br/>Dashboard</div>
+            <div class="node staff col-5 row-4">STAFF<br/>Dashboard</div>
+            <div class="node alumni col-8 row-4">ALUMNI<br/>Dashboard</div>
+            
+            <!-- STUDENT FEATURES SECTION -->
+            <div class="container-box" style="top: 340px; left: 20px; width: 480px; height: 400px;">
+                <div class="container-label">Student Features & Workflows</div>
+            </div>
+            
+            <!-- ROW 5-8: Student Features (Left Column) -->
+            <div class="node student col-1 row-5">Resume Upload</div>
+            <div class="node ai col-3 row-5">AI Resume Analysis</div>
+            <div class="description col-4 row-5" style="top: 375px;">LLM processes resume content & provides detailed feedback</div>
+            
+            <div class="node student col-1 row-6">Career Roadmap Request</div>
+            <div class="node ai col-3 row-6">AI Roadmap Generator</div>
+            <div class="description col-4 row-6" style="top: 455px;">Personalized career paths based on profile & goals</div>
+            
+            <div class="node student col-1 row-7">Join Department Chats</div>
+            <div class="node system col-3 row-7">Real-time Chat System</div>
+            <div class="description col-4 row-7" style="top: 535px;">WebSocket-based instant messaging with file sharing</div>
+            
+            <div class="node student col-1 row-8">Access Alumni Network</div>
+            <div class="node system col-3 row-8">Network Matching</div>
+            <div class="description col-4 row-8" style="top: 615px;">AI-powered mentor matching and networking</div>
+            
+            <!-- STAFF FEATURES SECTION -->
+            <div class="container-box" style="top: 340px; left: 540px; width: 360px; height: 400px;">
+                <div class="container-label">Staff Features & Administration</div>
+            </div>
+            
+            <!-- ROW 5-8: Staff Features (Center Column) -->
+            <div class="node staff col-5 row-5">Communication Hub</div>
+            <div class="node system col-6 row-5">File Management</div>
+            <div class="description col-7 row-5" style="top: 375px;">Document upload, sharing & version control</div>
+            
+            <div class="node staff col-5 row-6">Student Progress Monitor</div>
+            <div class="node system col-6 row-6">Analytics Dashboard</div>
+            <div class="description col-7 row-6" style="top: 455px;">Real-time progress tracking & reporting</div>
+            
+            <div class="node staff col-5 row-7">Event Management</div>
+            <div class="node system col-6 row-7">Calendar Integration</div>
+            <div class="description col-7 row-7" style="top: 535px;">Schedule, organize & track career events</div>
+            
+            <div class="node staff col-5 row-8">Department Admin</div>
+            <div class="node system col-6 row-8">User Management</div>
+            <div class="description col-7 row-8" style="top: 615px;">Role assignments & permission controls</div>
+            
+            <!-- ALUMNI FEATURES SECTION -->
+            <div class="container-box" style="top: 340px; left: 960px; width: 480px; height: 400px;">
+                <div class="container-label">Alumni Network & Engagement</div>
+            </div>
+            
+            <!-- ROW 5-8: Alumni Features (Right Column) -->
+            <div class="node alumni col-8 row-5">Alumni Network Access</div>
+            <div class="node system col-10 row-5">Profile Matching</div>
+            <div class="description col-9 row-5" style="top: 375px; left: 1080px;">Connect with alumni by industry & experience</div>
+            
+            <div class="node alumni col-8 row-6">Mentorship Programs</div>
+            <div class="node system col-10 row-6">Mentoring Platform</div>
+            <div class="description col-9 row-6" style="top: 455px; left: 1080px;">Structured mentoring with tracking tools</div>
+            
+            <div class="node alumni col-8 row-7">Career Success Sharing</div>
+            <div class="node system col-10 row-7">Content Management</div>
+            <div class="description col-9 row-7" style="top: 535px; left: 1080px;">Share achievements & career milestones</div>
+            
+            <div class="node alumni col-8 row-8">Event Participation</div>
+            <div class="node system col-10 row-8">Event Registration</div>
+            <div class="description col-9 row-8" style="top: 615px; left: 1080px;">Join career fairs, workshops & networking</div>
+            
+            <!-- CROSS-PLATFORM FEATURES -->
+            <div class="container-box" style="top: 780px; left: 140px; width: 1200px; height: 200px;">
+                <div class="container-label">Shared Platform Features & Services</div>
+            </div>
+            
+            <!-- ROW 10: Shared Features -->
+            <div class="node system col-2 row-10">Event Calendar</div>
+            <div class="node system col-3 row-10">Notifications</div>
+            <div class="node system col-5 row-10">Search & Discovery</div>
+            <div class="node system col-7 row-10">Analytics & Reports</div>
+            <div class="node system col-8 row-10">Settings & Preferences</div>
+            
+            <!-- ROW 11: Additional Shared Services -->
+            <div class="node ai col-2 row-11">Smart Recommendations</div>
+            <div class="node system col-3 row-11">Content Library</div>
+            <div class="node system col-5 row-11">Discussion Forums</div>
+            <div class="node system col-7 row-11">Help & Support</div>
+            <div class="node system col-8 row-11">Feedback System</div>
+            
+            <!-- TECHNICAL INFRASTRUCTURE -->
+            <div class="container-box" style="top: 1040px; left: 140px; width: 1200px; height: 280px;">
+                <div class="container-label">Technical Infrastructure & Integration Points</div>
+            </div>
+            
+            <!-- ROW 13: Database Layer -->
+            <div class="node system col-2 row-13">Firebase Database</div>
+            <div class="node system col-3 row-13">User Authentication</div>
+            <div class="node system col-5 row-13">File Storage Service</div>
+            <div class="node system col-7 row-13">Real-time Engine</div>
+            <div class="node system col-8 row-13">Security Layer</div>
+            
+            <!-- ROW 14: API & Integration Layer -->
+            <div class="node ai col-2 row-14">LLM API Gateway</div>
+            <div class="node system col-3 row-14">External APIs</div>
+            <div class="node system col-5 row-14">Email Service</div>
+            <div class="node system col-7 row-14">Push Notifications</div>
+            <div class="node system col-8 row-14">Backup & Recovery</div>
+            
+            <!-- ROW 15: Monitoring & Analytics -->
+            <div class="node system col-2 row-15">Performance Monitor</div>
+            <div class="node system col-3 row-15">Usage Analytics</div>
+            <div class="node system col-5 row-15">Error Tracking</div>
+            <div class="node system col-7 row-15">System Logs</div>
+            <div class="node system col-8 row-15">Health Checks</div>
+            
+            <!-- Decision Points -->
+            <div class="diamond col-1 row-9" style="left: 90px;">
+                <div class="diamond-text">Need<br/>AI<br/>Help?</div>
+            </div>
+            
+            <div class="diamond col-8 row-9" style="left: 1070px;">
+                <div class="diamond-text">Join<br/>Event?</div>
+            </div>
+            
+            <!-- SVG for Arrows -->
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                <defs>
+                    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+                        <polygon points="0 0, 12 4, 0 8" fill="#2c3e50"/>
+                    </marker>
+                    <marker id="arrowhead-light" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+                        <polygon points="0 0, 12 4, 0 8" fill="#7f8c8d"/>
+                    </marker>
+                </defs>
+                
+                <!-- Main vertical flow -->
+                <line class="arrow-line" x1="740" y1="75" x2="740" y2="115"/>
+                <line class="arrow-line" x1="740" y1="155" x2="740" y2="195"/>
+                
+                <!-- User type branches -->
+                <line class="arrow-line" x1="690" y1="240" x2="320" y2="275"/>
+                <line class="arrow-line" x1="740" y1="280" x2="740" y2="315"/>
+                <line class="arrow-line" x1="790" y1="240" x2="1160" y2="275"/>
+                
+                <!-- Student feature flows -->
+                <line class="arrow-line" x1="290" y1="375" x2="315" y2="375"/>
+                <line class="arrow-line" x1="290" y1="455" x2="315" y2="455"/>
+                <line class="arrow-line" x1="290" y1="535" x2="315" y2="535"/>
+                <line class="arrow-line" x1="290" y1="615" x2="315" y2="615"/>
+                
+                <!-- Staff feature flows -->
+                <line class="arrow-line" x1="680" y1="375" x2="735" y2="375"/>
+                <line class="arrow-line" x1="680" y1="455" x2="735" y2="455"/>
+                <line class="arrow-line" x1="680" y1="535" x2="735" y2="535"/>
+                <line class="arrow-line" x1="680" y1="615" x2="735" y2="615"/>
+                
+                <!-- Alumni feature flows -->
+                <line class="arrow-line" x1="1160" y1="375" x2="1155" y2="375"/>
+                <line class="arrow-line" x1="1160" y1="455" x2="1155" y2="455"/>
+                <line class="arrow-line" x1="1160" y1="535" x2="1155" y2="535"/>
+                <line class="arrow-line" x1="1160" y1="615" x2="1155" y2="615"/>
+                
+                <!-- Connections to shared features -->
+                <line class="arrow-dashed" x1="320" y1="695" x2="320" y2="755"/>
+                <line class="arrow-dashed" x1="740" y1="695" x2="740" y2="755"/>
+                <line class="arrow-dashed" x1="1160" y1="695" x2="1160" y2="755"/>
+                
+                <!-- Horizontal connections for shared features -->
+                <line class="arrow-line" x1="290" y1="775" x2="315" y2="775"/>
+                <line class="arrow-line" x1="430" y1="775" x2="595" y2="775"/>
+                <line class="arrow-line" x1="710" y1="775" x2="875" y2="775"/>
+                <line class="arrow-line" x1="990" y1="775" x2="1155" y2="775"/>
+                
+                <!-- Technical infrastructure vertical connections -->
+                <line class="arrow-dashed" x1="320" y1="895" x2="320" y2="995"/>
+                <line class="arrow-dashed" x1="460" y1="895" x2="460" y2="995"/>
+                <line class="arrow-dashed" x1="740" y1="895" x2="740" y2="995"/>
+                <line class="arrow-dashed" x1="1020" y1="895" x2="1020" y2="995"/>
+                
+                <!-- Infrastructure layer connections -->
+                <line class="arrow-line" x1="290" y1="1085" x2="315" y2="1085"/>
+                <line class="arrow-line" x1="430" y1="1085" x2="595" y2="1085"/>
+                <line class="arrow-line" x1="710" y1="1085" x2="875" y2="1085"/>
+                <line class="arrow-line" x1="990" y1="1085" x2="1155" y2="1085"/>
+                
+                <line class="arrow-line" x1="290" y1="1165" x2="315" y2="1165"/>
+                <line class="arrow-line" x1="430" y1="1165" x2="595" y2="1165"/>
+                <line class="arrow-line" x1="710" y1="1165" x2="875" y2="1165"/>
+                <line class="arrow-line" x1="990" y1="1165" x2="1155" y2="1165"/>
+                
+                <!-- Decision point connections -->
+                <line class="arrow-line" x1="140" y1="720" x2="240" y2="775"/>
+                <line class="arrow-line" x1="1120" y1="720" x2="1020" y2="775"/>
+            </svg>
+        </div>
+    </div>
+    
+    <script>
+        // Enhanced interactive hover effects
+        document.querySelectorAll('.node').forEach(node => {
+            node.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.05)';
+                this.style.zIndex = '5';
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.zIndex = '1';
+            });
+        });
+        
+        // Add click interactions with enhanced feedback
+        document.querySelectorAll('.node').forEach(node => {
+            node.addEventListener('click', function() {
+                const nodeText = this.textContent.trim();
+                console.log(`Clicked on: ${nodeText}`);
+                
+                // Enhanced click feedback
+                this.style.animation = 'clickPulse 0.4s ease-in-out';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 400);
+            });
+        });
+        
+        // Diamond hover effects
+        document.querySelectorAll('.diamond').forEach(diamond => {
+            diamond.addEventListener('mouseenter', function() {
+                this.style.transform = 'rotate(45deg) scale(1.1)';
+            });
+            
+            diamond.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotate(45deg) scale(1)';
+            });
+        });
+        
+        // Add enhanced CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes clickPulse {
+                0% { transform: scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+                50% { transform: scale(1.15); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+                100% { transform: scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .node, .diamond, .description {
+                animation: fadeIn 0.6s ease-out;
+            }
+            
+            .container-box {
+                animation: fadeIn 0.8s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Add progressive animation delays
+        document.querySelectorAll('.node').forEach((node, index) => {
+            node.style.animationDelay = `${index * 0.05}s`;
+        });
+    </script>
+</body>
+</html>
