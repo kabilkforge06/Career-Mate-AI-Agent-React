@@ -105,10 +105,6 @@ The application will be available at [http://localhost:3000](http://localhost:30
 - Data encryption
 - Protected API endpoints
 
-## 📱 Demo Accounts
-
-- Student: student@demo.com / password123
-- Alumni: alumni@demo.com / password123
 
 ## 🤝 Contributing
 
